@@ -7,13 +7,12 @@ deleteThought,
  
 } = require('../../thoughtController');
 
-// /api/students
+// /api/thoughts
 router.route('/').get(getThoughts).post(createThought);
 
-// /api/students/:studentId
+// /api/students/:thoughtId
 router.route('/:thoughtId').get(getSingleThought).delete(deleteThought);
 
-// /api/students/:studentId/assignments
 
 
 module.exports = router;

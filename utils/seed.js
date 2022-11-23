@@ -6,7 +6,6 @@ connection.on('error', (err) => err);
 
 connection.once('open', async () => {
   console.log('connected');
-  // delete users once connected
 await User.collection.deleteMany({});
 // new users
   const newUsers = [{
