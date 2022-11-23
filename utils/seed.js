@@ -1,51 +1,42 @@
 const connection = require('../config/connection');
-const { Course, Student } = require('../models');
-const { getRandomName, getRandomAssignments } = require('./data');
+const { Thought, User } = require('../models');
+
 
 connection.on('error', (err) => err);
 
 connection.once('open', async () => {
   console.log('connected');
+  // delete users once connected
+await User.collection.deleteMany({});
+// new users
+  const newUsers = [{
+    username: 'PRESSUREBUILDS DIAMONS!',
+    email: "whydoieventry@gmail.com",
+    thoughts: ['i love people', 'why do people not love me back', 'i like lexicons'],
 
-  // Drop existing courses
-  await Course.deleteMany({});
+  },
+  {
+    username: "Wnoon",
+    email: "Ilovebuffpeople@gmail.com",
+    thoughts: ['I love buff people', 'why do buff people not like me back', "i like muscles"],
+  },
+  {
+    username: "evilman1",
+    email: "ilovebeingevil@hell.com",
+    thoughts: ['evil people need love', 'why do i even try'],
 
-  // Drop existing students
-  await Student.deleteMany({});
 
-  // Create empty array to hold the students
-  const students = [];
-
-  // Loop 20 times -- add students to the students array
-  for (let i = 0; i < 20; i++) {
-    // Get some random assignment objects using a helper function that we imported from ./data
-    const assignments = getRandomAssignments(20);
-
-    const fullName = getRandomName();
-    const first = fullName.split(' ')[0];
-    const last = fullName.split(' ')[1];
-    const github = `${first}${Math.floor(Math.random() * (99 - 18 + 1) + 18)}`;
-
-    students.push({
-      first,
-      last,
-      github,
-      assignments,
-    });
   }
 
-  // Add students to the collection and await the results
-  await Student.collection.insertMany(students);
 
-  // Add courses to the collection and await the results
-  await Course.collection.insertOne({
-    courseName: 'UCLA',
-    inPerson: false,
-    students: [...students],
-  });
 
-  // Log out the seed data to indicate what should appear in the database
-  console.table(students);
+]
+
+  // insert users to collection
+  await User.collection.insertMany(newUsers);
+
+// console table information
+  console.table(newUsers);
   console.info('Seeding complete! 🌱');
   process.exit(0);
 });

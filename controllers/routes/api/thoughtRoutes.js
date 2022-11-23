@@ -5,7 +5,7 @@ getSingleThought,
 createThought,
 deleteThought,
  
-} = require('../../controllers/thoughtController');
+} = require('../../thoughtController');
 
 // /api/students
 router.route('/').get(getThoughts).post(createThought);

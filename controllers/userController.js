@@ -7,24 +7,10 @@ const headCount = async () =>
     .count('userCount')
     .then((numberOfUsers) => numberOfUsers);
 
-// Aggregate function for getting the overall grade using $avg
-// const grade = async (studentId) =>
-//   Student.aggregate([
-//     // only include the given student by using $match
-//     { $match: { _id: ObjectId(studentId) } },
-//     {
-//       $unwind: '$assignments',
-//     },
-//     {
-//       $group: {
-//         _id: ObjectId(studentId),
-//         overallGrade: { $avg: '$assignments.score' },
-//       },
-//     },
-//   ]);
+
 
 module.exports = {
-  // Get all students
+  // Get all users
   getUsers(req, res) {
     User.find()
       .then(async (users) => {
@@ -39,9 +25,9 @@ module.exports = {
         return res.status(500).json(err);
       });
   },
-  // Get a single student
+  // Get a single user
   getSingleUser(req, res) {
-    User.findOne({ _id: req.params.studentId })
+    User.findOne({ _id: req.params.userId })
       .select('-__v')
       .then(async (user) =>
         !user
@@ -55,15 +41,15 @@ module.exports = {
         return res.status(500).json(err);
       });
   },
-  // create a new student
+  // create a new user
   createUser(req, res) {
     User.create(req.body)
       .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
-  // Delete a student and remove them from the course
+  // Delete a user
   deleteUser(req, res) {
-    User.findOneAndRemove({ _id: req.params.user_id })
+    User.findOneAndRemove({ _id: req.params.userId })
       .then((student) =>
         !student
           ? res.status(404).json({ message: 'No such user exists' })
@@ -85,8 +71,5 @@ module.exports = {
         res.status(500).json(err);
       });
   },
-
-  // Add an assignment to a studen
-  // Remove assignment from a student
 
 };
